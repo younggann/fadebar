@@ -1,4 +1,6 @@
 import React from 'react';
+var baseUrl = "https://www.googleapis.com/youtube/v3";
+var API_KEY = "AIzaSyDf5029AuemfhUn3X9jt0X0JVEz7XQFg-k";
 
 /**
  * A counter button: tap the button to increase the count.
