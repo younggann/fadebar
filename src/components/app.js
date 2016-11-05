@@ -1,51 +1,39 @@
 import React from 'react';
+var search = require('youtube-search');
 
 export default class App extends React.Component {
     constructor(props) {
-        super(props);
+      super(props);
+      this.state = {
+        results: "",
+        opts: {
+            maxResults: 10,
+            key: 'AIzaSyB1OOSpTREs85WUMvIgJvLTZKye4BVsoFU'
+          }
+      };
+      this.getResults = this.getResults.bind(this);
+    }
 
-        this.state = {
-            todos
-        };
+    componentDidMount() {
+      this.getResults();
     }
 
     render() {
         return (
             <div>
                 <h1>React ToDos App</h1>
-                <CreateTodo todos={this.state.todos} createTask={this.createTask.bind(this)} />
-                <TodosList
-                    todos={this.state.todos}
-                    toggleTask={this.toggleTask.bind(this)}
-                    saveTask={this.saveTask.bind(this)}
-                    deleteTask={this.deleteTask.bind(this)}
-                />
+                <h2>hi {this.state.results}</h2>
             </div>
         );
     }
 
-    toggleTask(task) {
-        const foundTodo = _.find(this.state.todos, todo => todo.task === task);
-        foundTodo.isCompleted = !foundTodo.isCompleted;
-        this.setState({ todos: this.state.todos });
-    }
-
-    createTask(task) {
-        this.state.todos.push({
-            task,
-            isCompleted: false
-        });
-        this.setState({ todos: this.state.todos });
-    }
-
-    saveTask(oldTask, newTask) {
-        const foundTodo = _.find(this.state.todos, todo => todo.task === oldTask);
-        foundTodo.task = newTask;
-        this.setState({ todos: this.state.todos });
-    }
-
-    deleteTask(taskToDelete) {
-        _.remove(this.state.todos, todo => todo.task === taskToDelete);
-        this.setState({ todos: this.state.todos });
+    getResults() {
+      var that = this;
+      var getSearches = search('deadmau5', this.state.opts, function(err, qresults) {
+        if(err) return console.log(err);
+        that.setState({
+          results: qresults[0].description
+        })
+      });
     }
 }
